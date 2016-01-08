@@ -1,0 +1,662 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+  <!-- EF Runtime content -->
+  <edmx:Runtime>
+    <!-- SSDL content -->
+    <edmx:StorageModels>
+      <Schema Namespace="DBIG3B7Model.Store" Provider="System.Data.SqlClient" ProviderManifestToken="2008" Alias="Self" xmlns:store="http://schemas.microsoft.com/ado/2007/12/edm/EntityStoreSchemaGenerator" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm/ssdl">
+        <EntityType Name="Contrat">
+          <Key>
+            <PropertyRef Name="idContrat" />
+          </Key>
+          <Property Name="idContrat" Type="numeric" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="dateEntree" Type="date" Nullable="false" />
+          <Property Name="idTravailleur" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="numero" Type="numeric" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="dateSortie" Type="date" />
+          <Property Name="codeAlphabetique" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContratTravailleurNonSoumis">
+          <Key>
+            <PropertyRef Name="idContrat" />
+          </Key>
+          <Property Name="idContrat" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="ContratTravailleurSoumis">
+          <Key>
+            <PropertyRef Name="idContrat" />
+          </Key>
+          <Property Name="idContrat" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="numDossierMedical" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="EntrepriseClient">
+          <Key>
+            <PropertyRef Name="numero" />
+          </Key>
+          <Property Name="numero" Type="numeric" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="denomination" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="adresse" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="numTel" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="nombreTravailleursSoumis" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="nombreTravailleursNonSoumis" Type="numeric" Precision="10" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Interlocuteur">
+          <Key>
+            <PropertyRef Name="idInterlocuteur" />
+          </Key>
+          <Property Name="idInterlocuteur" Type="numeric" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="Nom" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="numero" Type="numeric" Precision="5" Scale="0" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Langue">
+          <Key>
+            <PropertyRef Name="idLangue" />
+          </Key>
+          <Property Name="idLangue" Type="numeric" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="libelle" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Profession">
+          <Key>
+            <PropertyRef Name="codeAlphabetique" />
+          </Key>
+          <Property Name="codeAlphabetique" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TraductionEntreprise">
+          <Key>
+            <PropertyRef Name="idTraductionEntreprise" />
+          </Key>
+          <Property Name="idTraductionEntreprise" Type="numeric" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="idLangue" Type="numeric" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="numero" Type="numeric" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="tradTexteEntreprise" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="TraductionProfession">
+          <Key>
+            <PropertyRef Name="idTraductionProfession" />
+          </Key>
+          <Property Name="idTraductionProfession" Type="numeric" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="codeAlphabetique" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="idLangue" Type="numeric" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="TexteTradProfession" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <EntityType Name="Travailleur">
+          <Key>
+            <PropertyRef Name="idTravailleur" />
+          </Key>
+          <Property Name="idTravailleur" Type="numeric" Precision="10" Scale="0" StoreGeneratedPattern="Identity" Nullable="false" />
+          <Property Name="nom" Type="varchar" MaxLength="100" Nullable="false" />
+          <Property Name="adresse" Type="varchar" MaxLength="100" Nullable="false" />
+        </EntityType>
+        <Association Name="EQU_Contr_Entre">
+          <End Role="EntrepriseClient" Type="Self.EntrepriseClient" Multiplicity="1" />
+          <End Role="Contrat" Type="Self.Contrat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntrepriseClient">
+              <PropertyRef Name="numero" />
+            </Principal>
+            <Dependent Role="Contrat">
+              <PropertyRef Name="numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EQU_Inter_Entre_FK">
+          <End Role="EntrepriseClient" Type="Self.EntrepriseClient" Multiplicity="1" />
+          <End Role="Interlocuteur" Type="Self.Interlocuteur" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntrepriseClient">
+              <PropertyRef Name="numero" />
+            </Principal>
+            <Dependent Role="Interlocuteur">
+              <PropertyRef Name="numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EQU_Tradu_Entre_FK">
+          <End Role="EntrepriseClient" Type="Self.EntrepriseClient" Multiplicity="1" />
+          <End Role="TraductionEntreprise" Type="Self.TraductionEntreprise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntrepriseClient">
+              <PropertyRef Name="numero" />
+            </Principal>
+            <Dependent Role="TraductionEntreprise">
+              <PropertyRef Name="numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EQU_Tradu_Profe">
+          <End Role="Profession" Type="Self.Profession" Multiplicity="1" />
+          <End Role="TraductionProfession" Type="Self.TraductionProfession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profession">
+              <PropertyRef Name="codeAlphabetique" />
+            </Principal>
+            <Dependent Role="TraductionProfession">
+              <PropertyRef Name="codeAlphabetique" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ID_Contr_Contr_1_FK">
+          <End Role="Contrat" Type="Self.Contrat" Multiplicity="1" />
+          <End Role="ContratTravailleurNonSoumis" Type="Self.ContratTravailleurNonSoumis" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Contrat">
+              <PropertyRef Name="idContrat" />
+            </Principal>
+            <Dependent Role="ContratTravailleurNonSoumis">
+              <PropertyRef Name="idContrat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ID_Contr_Contr_FK">
+          <End Role="Contrat" Type="Self.Contrat" Multiplicity="1" />
+          <End Role="ContratTravailleurSoumis" Type="Self.ContratTravailleurSoumis" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Contrat">
+              <PropertyRef Name="idContrat" />
+            </Principal>
+            <Dependent Role="ContratTravailleurSoumis">
+              <PropertyRef Name="idContrat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="REF_Contr_Profe_FK">
+          <End Role="Profession" Type="Self.Profession" Multiplicity="1" />
+          <End Role="Contrat" Type="Self.Contrat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profession">
+              <PropertyRef Name="codeAlphabetique" />
+            </Principal>
+            <Dependent Role="Contrat">
+              <PropertyRef Name="codeAlphabetique" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="REF_Contr_Trava_FK">
+          <End Role="Travailleur" Type="Self.Travailleur" Multiplicity="1" />
+          <End Role="Contrat" Type="Self.Contrat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Travailleur">
+              <PropertyRef Name="idTravailleur" />
+            </Principal>
+            <Dependent Role="Contrat">
+              <PropertyRef Name="idTravailleur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="REF_Tradu_Langu_1_FK">
+          <End Role="Langue" Type="Self.Langue" Multiplicity="1" />
+          <End Role="TraductionProfession" Type="Self.TraductionProfession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Langue">
+              <PropertyRef Name="idLangue" />
+            </Principal>
+            <Dependent Role="TraductionProfession">
+              <PropertyRef Name="idLangue" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="REF_Tradu_Langu_3">
+          <End Role="Langue" Type="Self.Langue" Multiplicity="1" />
+          <End Role="TraductionEntreprise" Type="Self.TraductionEntreprise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Langue">
+              <PropertyRef Name="idLangue" />
+            </Principal>
+            <Dependent Role="TraductionEntreprise">
+              <PropertyRef Name="idLangue" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBIG3B7ModelStoreContainer">
+          <EntitySet Name="Contrat" EntityType="Self.Contrat" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContratTravailleurNonSoumis" EntityType="Self.ContratTravailleurNonSoumis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="ContratTravailleurSoumis" EntityType="Self.ContratTravailleurSoumis" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="EntrepriseClient" EntityType="Self.EntrepriseClient" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Interlocuteur" EntityType="Self.Interlocuteur" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Langue" EntityType="Self.Langue" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Profession" EntityType="Self.Profession" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TraductionEntreprise" EntityType="Self.TraductionEntreprise" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="TraductionProfession" EntityType="Self.TraductionProfession" Schema="dbo" store:Type="Tables" />
+          <EntitySet Name="Travailleur" EntityType="Self.Travailleur" Schema="dbo" store:Type="Tables" />
+          <AssociationSet Name="EQU_Contr_Entre" Association="Self.EQU_Contr_Entre">
+            <End Role="EntrepriseClient" EntitySet="EntrepriseClient" />
+            <End Role="Contrat" EntitySet="Contrat" />
+          </AssociationSet>
+          <AssociationSet Name="EQU_Inter_Entre_FK" Association="Self.EQU_Inter_Entre_FK">
+            <End Role="EntrepriseClient" EntitySet="EntrepriseClient" />
+            <End Role="Interlocuteur" EntitySet="Interlocuteur" />
+          </AssociationSet>
+          <AssociationSet Name="EQU_Tradu_Entre_FK" Association="Self.EQU_Tradu_Entre_FK">
+            <End Role="EntrepriseClient" EntitySet="EntrepriseClient" />
+            <End Role="TraductionEntreprise" EntitySet="TraductionEntreprise" />
+          </AssociationSet>
+          <AssociationSet Name="EQU_Tradu_Profe" Association="Self.EQU_Tradu_Profe">
+            <End Role="Profession" EntitySet="Profession" />
+            <End Role="TraductionProfession" EntitySet="TraductionProfession" />
+          </AssociationSet>
+          <AssociationSet Name="ID_Contr_Contr_1_FK" Association="Self.ID_Contr_Contr_1_FK">
+            <End Role="Contrat" EntitySet="Contrat" />
+            <End Role="ContratTravailleurNonSoumis" EntitySet="ContratTravailleurNonSoumis" />
+          </AssociationSet>
+          <AssociationSet Name="ID_Contr_Contr_FK" Association="Self.ID_Contr_Contr_FK">
+            <End Role="Contrat" EntitySet="Contrat" />
+            <End Role="ContratTravailleurSoumis" EntitySet="ContratTravailleurSoumis" />
+          </AssociationSet>
+          <AssociationSet Name="REF_Contr_Profe_FK" Association="Self.REF_Contr_Profe_FK">
+            <End Role="Profession" EntitySet="Profession" />
+            <End Role="Contrat" EntitySet="Contrat" />
+          </AssociationSet>
+          <AssociationSet Name="REF_Contr_Trava_FK" Association="Self.REF_Contr_Trava_FK">
+            <End Role="Travailleur" EntitySet="Travailleur" />
+            <End Role="Contrat" EntitySet="Contrat" />
+          </AssociationSet>
+          <AssociationSet Name="REF_Tradu_Langu_1_FK" Association="Self.REF_Tradu_Langu_1_FK">
+            <End Role="Langue" EntitySet="Langue" />
+            <End Role="TraductionProfession" EntitySet="TraductionProfession" />
+          </AssociationSet>
+          <AssociationSet Name="REF_Tradu_Langu_3" Association="Self.REF_Tradu_Langu_3">
+            <End Role="Langue" EntitySet="Langue" />
+            <End Role="TraductionEntreprise" EntitySet="TraductionEntreprise" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:StorageModels>
+    <!-- CSDL content -->
+    <edmx:ConceptualModels>
+      <Schema Namespace="DBIG3B7Model" Alias="Self" annotation:UseStrongSpatialTypes="false" xmlns:annotation="http://schemas.microsoft.com/ado/2009/02/edm/annotation" xmlns:customannotation="http://schemas.microsoft.com/ado/2013/11/edm/customannotation" xmlns="http://schemas.microsoft.com/ado/2009/11/edm">
+        <EntityType Name="Contrat">
+          <Key>
+            <PropertyRef Name="idContrat" />
+          </Key>
+          <Property Name="idContrat" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="dateEntree" Type="DateTime" Nullable="false" Precision="0" />
+          <Property Name="idTravailleur" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="numero" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="dateSortie" Type="DateTime" Precision="0" />
+          <Property Name="codeAlphabetique" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="EntrepriseClient" Relationship="Self.EQU_Contr_Entre" FromRole="Contrat" ToRole="EntrepriseClient" />
+          <NavigationProperty Name="ContratTravailleurNonSoumis" Relationship="Self.ID_Contr_Contr_1_FK" FromRole="Contrat" ToRole="ContratTravailleurNonSoumis" />
+          <NavigationProperty Name="ContratTravailleurSoumis" Relationship="Self.ID_Contr_Contr_FK" FromRole="Contrat" ToRole="ContratTravailleurSoumis" />
+          <NavigationProperty Name="Profession" Relationship="Self.REF_Contr_Profe_FK" FromRole="Contrat" ToRole="Profession" />
+          <NavigationProperty Name="Travailleur" Relationship="Self.REF_Contr_Trava_FK" FromRole="Contrat" ToRole="Travailleur" />
+        </EntityType>
+        <EntityType Name="ContratTravailleurNonSoumis">
+          <Key>
+            <PropertyRef Name="idContrat" />
+          </Key>
+          <Property Name="idContrat" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <NavigationProperty Name="Contrat" Relationship="Self.ID_Contr_Contr_1_FK" FromRole="ContratTravailleurNonSoumis" ToRole="Contrat" />
+        </EntityType>
+        <EntityType Name="ContratTravailleurSoumis">
+          <Key>
+            <PropertyRef Name="idContrat" />
+          </Key>
+          <Property Name="idContrat" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="numDossierMedical" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contrat" Relationship="Self.ID_Contr_Contr_FK" FromRole="ContratTravailleurSoumis" ToRole="Contrat" />
+        </EntityType>
+        <EntityType Name="EntrepriseClient">
+          <Key>
+            <PropertyRef Name="numero" />
+          </Key>
+          <Property Name="numero" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="denomination" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="adresse" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="numTel" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="nombreTravailleursSoumis" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <Property Name="nombreTravailleursNonSoumis" Type="Decimal" Precision="10" Scale="0" Nullable="false" />
+          <NavigationProperty Name="Contrat" Relationship="Self.EQU_Contr_Entre" FromRole="EntrepriseClient" ToRole="Contrat" />
+          <NavigationProperty Name="Interlocuteur" Relationship="Self.EQU_Inter_Entre_FK" FromRole="EntrepriseClient" ToRole="Interlocuteur" />
+          <NavigationProperty Name="TraductionEntreprise" Relationship="Self.EQU_Tradu_Entre_FK" FromRole="EntrepriseClient" ToRole="TraductionEntreprise" />
+        </EntityType>
+        <EntityType Name="Interlocuteur">
+          <Key>
+            <PropertyRef Name="idInterlocuteur" />
+          </Key>
+          <Property Name="idInterlocuteur" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="Nom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="numero" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <NavigationProperty Name="EntrepriseClient" Relationship="Self.EQU_Inter_Entre_FK" FromRole="Interlocuteur" ToRole="EntrepriseClient" />
+        </EntityType>
+        <EntityType Name="Langue">
+          <Key>
+            <PropertyRef Name="idLangue" />
+          </Key>
+          <Property Name="idLangue" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="libelle" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="TraductionProfession" Relationship="Self.REF_Tradu_Langu_1_FK" FromRole="Langue" ToRole="TraductionProfession" />
+          <NavigationProperty Name="TraductionEntreprise" Relationship="Self.REF_Tradu_Langu_3" FromRole="Langue" ToRole="TraductionEntreprise" />
+        </EntityType>
+        <EntityType Name="Profession">
+          <Key>
+            <PropertyRef Name="codeAlphabetique" />
+          </Key>
+          <Property Name="codeAlphabetique" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contrat" Relationship="Self.REF_Contr_Profe_FK" FromRole="Profession" ToRole="Contrat" />
+          <NavigationProperty Name="TraductionProfession" Relationship="Self.EQU_Tradu_Profe" FromRole="Profession" ToRole="TraductionProfession" />
+        </EntityType>
+        <EntityType Name="TraductionEntreprise">
+          <Key>
+            <PropertyRef Name="idTraductionEntreprise" />
+          </Key>
+          <Property Name="idTraductionEntreprise" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="idLangue" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="numero" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="tradTexteEntreprise" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="EntrepriseClient" Relationship="Self.EQU_Tradu_Entre_FK" FromRole="TraductionEntreprise" ToRole="EntrepriseClient" />
+          <NavigationProperty Name="Langue" Relationship="Self.REF_Tradu_Langu_3" FromRole="TraductionEntreprise" ToRole="Langue" />
+        </EntityType>
+        <EntityType Name="TraductionProfession">
+          <Key>
+            <PropertyRef Name="idTraductionProfession" />
+          </Key>
+          <Property Name="idTraductionProfession" Type="Decimal" Precision="5" Scale="0" Nullable="false" />
+          <Property Name="codeAlphabetique" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="idLangue" Type="Decimal" Precision="1" Scale="0" Nullable="false" />
+          <Property Name="TexteTradProfession" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Langue" Relationship="Self.REF_Tradu_Langu_1_FK" FromRole="TraductionProfession" ToRole="Langue" />
+          <NavigationProperty Name="Profession" Relationship="Self.EQU_Tradu_Profe" FromRole="TraductionProfession" ToRole="Profession" />
+        </EntityType>
+        <EntityType Name="Travailleur">
+          <Key>
+            <PropertyRef Name="idTravailleur" />
+          </Key>
+          <Property Name="idTravailleur" Type="Decimal" Precision="10" Scale="0" Nullable="false" annotation:StoreGeneratedPattern="Identity" />
+          <Property Name="nom" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <Property Name="adresse" Type="String" MaxLength="100" FixedLength="false" Unicode="false" Nullable="false" />
+          <NavigationProperty Name="Contrat" Relationship="Self.REF_Contr_Trava_FK" FromRole="Travailleur" ToRole="Contrat" />
+        </EntityType>
+        <Association Name="EQU_Contr_Entre">
+          <End Role="EntrepriseClient" Type="Self.EntrepriseClient" Multiplicity="1" />
+          <End Role="Contrat" Type="Self.Contrat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntrepriseClient">
+              <PropertyRef Name="numero" />
+            </Principal>
+            <Dependent Role="Contrat">
+              <PropertyRef Name="numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ID_Contr_Contr_1_FK">
+          <End Role="Contrat" Type="Self.Contrat" Multiplicity="1" />
+          <End Role="ContratTravailleurNonSoumis" Type="Self.ContratTravailleurNonSoumis" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Contrat">
+              <PropertyRef Name="idContrat" />
+            </Principal>
+            <Dependent Role="ContratTravailleurNonSoumis">
+              <PropertyRef Name="idContrat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="ID_Contr_Contr_FK">
+          <End Role="Contrat" Type="Self.Contrat" Multiplicity="1" />
+          <End Role="ContratTravailleurSoumis" Type="Self.ContratTravailleurSoumis" Multiplicity="0..1" />
+          <ReferentialConstraint>
+            <Principal Role="Contrat">
+              <PropertyRef Name="idContrat" />
+            </Principal>
+            <Dependent Role="ContratTravailleurSoumis">
+              <PropertyRef Name="idContrat" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="REF_Contr_Profe_FK">
+          <End Role="Profession" Type="Self.Profession" Multiplicity="1" />
+          <End Role="Contrat" Type="Self.Contrat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profession">
+              <PropertyRef Name="codeAlphabetique" />
+            </Principal>
+            <Dependent Role="Contrat">
+              <PropertyRef Name="codeAlphabetique" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="REF_Contr_Trava_FK">
+          <End Role="Travailleur" Type="Self.Travailleur" Multiplicity="1" />
+          <End Role="Contrat" Type="Self.Contrat" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Travailleur">
+              <PropertyRef Name="idTravailleur" />
+            </Principal>
+            <Dependent Role="Contrat">
+              <PropertyRef Name="idTravailleur" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EQU_Inter_Entre_FK">
+          <End Role="EntrepriseClient" Type="Self.EntrepriseClient" Multiplicity="1" />
+          <End Role="Interlocuteur" Type="Self.Interlocuteur" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntrepriseClient">
+              <PropertyRef Name="numero" />
+            </Principal>
+            <Dependent Role="Interlocuteur">
+              <PropertyRef Name="numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EQU_Tradu_Entre_FK">
+          <End Role="EntrepriseClient" Type="Self.EntrepriseClient" Multiplicity="1" />
+          <End Role="TraductionEntreprise" Type="Self.TraductionEntreprise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="EntrepriseClient">
+              <PropertyRef Name="numero" />
+            </Principal>
+            <Dependent Role="TraductionEntreprise">
+              <PropertyRef Name="numero" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="REF_Tradu_Langu_1_FK">
+          <End Role="Langue" Type="Self.Langue" Multiplicity="1" />
+          <End Role="TraductionProfession" Type="Self.TraductionProfession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Langue">
+              <PropertyRef Name="idLangue" />
+            </Principal>
+            <Dependent Role="TraductionProfession">
+              <PropertyRef Name="idLangue" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="REF_Tradu_Langu_3">
+          <End Role="Langue" Type="Self.Langue" Multiplicity="1" />
+          <End Role="TraductionEntreprise" Type="Self.TraductionEntreprise" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Langue">
+              <PropertyRef Name="idLangue" />
+            </Principal>
+            <Dependent Role="TraductionEntreprise">
+              <PropertyRef Name="idLangue" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <Association Name="EQU_Tradu_Profe">
+          <End Role="Profession" Type="Self.Profession" Multiplicity="1" />
+          <End Role="TraductionProfession" Type="Self.TraductionProfession" Multiplicity="*" />
+          <ReferentialConstraint>
+            <Principal Role="Profession">
+              <PropertyRef Name="codeAlphabetique" />
+            </Principal>
+            <Dependent Role="TraductionProfession">
+              <PropertyRef Name="codeAlphabetique" />
+            </Dependent>
+          </ReferentialConstraint>
+        </Association>
+        <EntityContainer Name="DBIG3B7Entities" annotation:LazyLoadingEnabled="true">
+          <EntitySet Name="Contrat" EntityType="Self.Contrat" />
+          <EntitySet Name="ContratTravailleurNonSoumis" EntityType="Self.ContratTravailleurNonSoumis" />
+          <EntitySet Name="ContratTravailleurSoumis" EntityType="Self.ContratTravailleurSoumis" />
+          <EntitySet Name="EntrepriseClient" EntityType="Self.EntrepriseClient" />
+          <EntitySet Name="Interlocuteur" EntityType="Self.Interlocuteur" />
+          <EntitySet Name="Langue" EntityType="Self.Langue" />
+          <EntitySet Name="Profession" EntityType="Self.Profession" />
+          <EntitySet Name="TraductionEntreprise" EntityType="Self.TraductionEntreprise" />
+          <EntitySet Name="TraductionProfession" EntityType="Self.TraductionProfession" />
+          <EntitySet Name="Travailleur" EntityType="Self.Travailleur" />
+          <AssociationSet Name="EQU_Contr_Entre" Association="Self.EQU_Contr_Entre">
+            <End Role="EntrepriseClient" EntitySet="EntrepriseClient" />
+            <End Role="Contrat" EntitySet="Contrat" />
+          </AssociationSet>
+          <AssociationSet Name="ID_Contr_Contr_1_FK" Association="Self.ID_Contr_Contr_1_FK">
+            <End Role="Contrat" EntitySet="Contrat" />
+            <End Role="ContratTravailleurNonSoumis" EntitySet="ContratTravailleurNonSoumis" />
+          </AssociationSet>
+          <AssociationSet Name="ID_Contr_Contr_FK" Association="Self.ID_Contr_Contr_FK">
+            <End Role="Contrat" EntitySet="Contrat" />
+            <End Role="ContratTravailleurSoumis" EntitySet="ContratTravailleurSoumis" />
+          </AssociationSet>
+          <AssociationSet Name="REF_Contr_Profe_FK" Association="Self.REF_Contr_Profe_FK">
+            <End Role="Profession" EntitySet="Profession" />
+            <End Role="Contrat" EntitySet="Contrat" />
+          </AssociationSet>
+          <AssociationSet Name="REF_Contr_Trava_FK" Association="Self.REF_Contr_Trava_FK">
+            <End Role="Travailleur" EntitySet="Travailleur" />
+            <End Role="Contrat" EntitySet="Contrat" />
+          </AssociationSet>
+          <AssociationSet Name="EQU_Inter_Entre_FK" Association="Self.EQU_Inter_Entre_FK">
+            <End Role="EntrepriseClient" EntitySet="EntrepriseClient" />
+            <End Role="Interlocuteur" EntitySet="Interlocuteur" />
+          </AssociationSet>
+          <AssociationSet Name="EQU_Tradu_Entre_FK" Association="Self.EQU_Tradu_Entre_FK">
+            <End Role="EntrepriseClient" EntitySet="EntrepriseClient" />
+            <End Role="TraductionEntreprise" EntitySet="TraductionEntreprise" />
+          </AssociationSet>
+          <AssociationSet Name="REF_Tradu_Langu_1_FK" Association="Self.REF_Tradu_Langu_1_FK">
+            <End Role="Langue" EntitySet="Langue" />
+            <End Role="TraductionProfession" EntitySet="TraductionProfession" />
+          </AssociationSet>
+          <AssociationSet Name="REF_Tradu_Langu_3" Association="Self.REF_Tradu_Langu_3">
+            <End Role="Langue" EntitySet="Langue" />
+            <End Role="TraductionEntreprise" EntitySet="TraductionEntreprise" />
+          </AssociationSet>
+          <AssociationSet Name="EQU_Tradu_Profe" Association="Self.EQU_Tradu_Profe">
+            <End Role="Profession" EntitySet="Profession" />
+            <End Role="TraductionProfession" EntitySet="TraductionProfession" />
+          </AssociationSet>
+        </EntityContainer>
+      </Schema>
+    </edmx:ConceptualModels>
+    <!-- C-S mapping content -->
+    <edmx:Mappings>
+      <Mapping Space="C-S" xmlns="http://schemas.microsoft.com/ado/2009/11/mapping/cs">
+        <EntityContainerMapping StorageEntityContainer="DBIG3B7ModelStoreContainer" CdmEntityContainer="DBIG3B7Entities">
+          <EntitySetMapping Name="Contrat">
+            <EntityTypeMapping TypeName="DBIG3B7Model.Contrat">
+              <MappingFragment StoreEntitySet="Contrat">
+                <ScalarProperty Name="idContrat" ColumnName="idContrat" />
+                <ScalarProperty Name="dateEntree" ColumnName="dateEntree" />
+                <ScalarProperty Name="idTravailleur" ColumnName="idTravailleur" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="dateSortie" ColumnName="dateSortie" />
+                <ScalarProperty Name="codeAlphabetique" ColumnName="codeAlphabetique" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContratTravailleurNonSoumis">
+            <EntityTypeMapping TypeName="DBIG3B7Model.ContratTravailleurNonSoumis">
+              <MappingFragment StoreEntitySet="ContratTravailleurNonSoumis">
+                <ScalarProperty Name="idContrat" ColumnName="idContrat" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="ContratTravailleurSoumis">
+            <EntityTypeMapping TypeName="DBIG3B7Model.ContratTravailleurSoumis">
+              <MappingFragment StoreEntitySet="ContratTravailleurSoumis">
+                <ScalarProperty Name="idContrat" ColumnName="idContrat" />
+                <ScalarProperty Name="numDossierMedical" ColumnName="numDossierMedical" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="EntrepriseClient">
+            <EntityTypeMapping TypeName="DBIG3B7Model.EntrepriseClient">
+              <MappingFragment StoreEntitySet="EntrepriseClient">
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="denomination" ColumnName="denomination" />
+                <ScalarProperty Name="adresse" ColumnName="adresse" />
+                <ScalarProperty Name="numTel" ColumnName="numTel" />
+                <ScalarProperty Name="nombreTravailleursSoumis" ColumnName="nombreTravailleursSoumis" />
+                <ScalarProperty Name="nombreTravailleursNonSoumis" ColumnName="nombreTravailleursNonSoumis" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Interlocuteur">
+            <EntityTypeMapping TypeName="DBIG3B7Model.Interlocuteur">
+              <MappingFragment StoreEntitySet="Interlocuteur">
+                <ScalarProperty Name="idInterlocuteur" ColumnName="idInterlocuteur" />
+                <ScalarProperty Name="Nom" ColumnName="Nom" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Langue">
+            <EntityTypeMapping TypeName="DBIG3B7Model.Langue">
+              <MappingFragment StoreEntitySet="Langue">
+                <ScalarProperty Name="idLangue" ColumnName="idLangue" />
+                <ScalarProperty Name="libelle" ColumnName="libelle" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Profession">
+            <EntityTypeMapping TypeName="DBIG3B7Model.Profession">
+              <MappingFragment StoreEntitySet="Profession">
+                <ScalarProperty Name="codeAlphabetique" ColumnName="codeAlphabetique" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TraductionEntreprise">
+            <EntityTypeMapping TypeName="DBIG3B7Model.TraductionEntreprise">
+              <MappingFragment StoreEntitySet="TraductionEntreprise">
+                <ScalarProperty Name="idTraductionEntreprise" ColumnName="idTraductionEntreprise" />
+                <ScalarProperty Name="idLangue" ColumnName="idLangue" />
+                <ScalarProperty Name="numero" ColumnName="numero" />
+                <ScalarProperty Name="tradTexteEntreprise" ColumnName="tradTexteEntreprise" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="TraductionProfession">
+            <EntityTypeMapping TypeName="DBIG3B7Model.TraductionProfession">
+              <MappingFragment StoreEntitySet="TraductionProfession">
+                <ScalarProperty Name="idTraductionProfession" ColumnName="idTraductionProfession" />
+                <ScalarProperty Name="codeAlphabetique" ColumnName="codeAlphabetique" />
+                <ScalarProperty Name="idLangue" ColumnName="idLangue" />
+                <ScalarProperty Name="TexteTradProfession" ColumnName="TexteTradProfession" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+          <EntitySetMapping Name="Travailleur">
+            <EntityTypeMapping TypeName="DBIG3B7Model.Travailleur">
+              <MappingFragment StoreEntitySet="Travailleur">
+                <ScalarProperty Name="idTravailleur" ColumnName="idTravailleur" />
+                <ScalarProperty Name="nom" ColumnName="nom" />
+                <ScalarProperty Name="adresse" ColumnName="adresse" />
+              </MappingFragment>
+            </EntityTypeMapping>
+          </EntitySetMapping>
+        </EntityContainerMapping>
+      </Mapping>
+    </edmx:Mappings>
+  </edmx:Runtime>
+  <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <Connection>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="MetadataArtifactProcessing" Value="EmbedInOutputAssembly" />
+      </DesignerInfoPropertySet>
+    </Connection>
+    <Options>
+      <DesignerInfoPropertySet>
+        <DesignerProperty Name="ValidateOnBuild" Value="true" />
+        <DesignerProperty Name="EnablePluralization" Value="false" />
+        <DesignerProperty Name="IncludeForeignKeysInModel" Value="true" />
+        <DesignerProperty Name="UseLegacyProvider" Value="false" />
+        <DesignerProperty Name="CodeGenerationStrategy" Value="None" />
+      </DesignerInfoPropertySet>
+    </Options>
+    <!-- Diagram content (shape and connector positions) -->
+    <Diagrams></Diagrams>
+  </Designer>
+</edmx:Edmx>

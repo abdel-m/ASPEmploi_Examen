@@ -1,0 +1,74 @@
+﻿@model EmploiASP_2.Contrat
+
+@{
+    ViewBag.Title = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>Contrat</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.dateEntree)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateEntree)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.dateSortie)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.dateSortie)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.EntrepriseClient.denomination)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.EntrepriseClient.denomination)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContratTravailleurNonSoumis.idContrat)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContratTravailleurNonSoumis.idContrat)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.ContratTravailleurSoumis.numDossierMedical)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.ContratTravailleurSoumis.numDossierMedical)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Profession.codeAlphabetique)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Profession.codeAlphabetique)
+        </dd>
+
+        <dt>
+            @Html.DisplayNameFor(model => model.Travailleur.nom)
+        </dt>
+
+        <dd>
+            @Html.DisplayFor(model => model.Travailleur.nom)
+        </dd>
+
+    </dl>
+</div>
+<p>
+    @Html.ActionLink("Edit", "Edit", new { id = Model.idContrat }) |
+    @Html.ActionLink("Back to List", "Index")
+</p>

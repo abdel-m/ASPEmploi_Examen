@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="3.0" xmlns:edmx="http://schemas.microsoft.com/ado/2009/11/edmx">
+ <!-- EF Designer content (DO NOT EDIT MANUALLY BELOW HERE) -->
+  <edmx:Designer xmlns="http://schemas.microsoft.com/ado/2009/11/edmx">
+    <!-- Diagram content (shape and connector positions) -->
+    <edmx:Diagrams>
+      <Diagram DiagramId="228c9028cfa04743a6c2f5229f921b39" Name="Diagram1">
+        <EntityTypeShape EntityType="DBIG3B7Model.Contrat" Width="1.5" PointX="3" PointY="4.375" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBIG3B7Model.ContratTravailleurNonSoumis" Width="1.5" PointX="5.25" PointY="2" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBIG3B7Model.ContratTravailleurSoumis" Width="1.5" PointX="5.25" PointY="8.125" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBIG3B7Model.EntrepriseClient" Width="1.5" PointX="0.75" PointY="4.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBIG3B7Model.Interlocuteur" Width="1.5" PointX="3" PointY="9.5" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBIG3B7Model.Langue" Width="1.5" PointX="3.75" PointY="13" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBIG3B7Model.Profession" Width="1.5" PointX="0.75" PointY="1.875" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBIG3B7Model.TraductionEntreprise" Width="1.5" PointX="6" PointY="4.75" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBIG3B7Model.TraductionProfession" Width="1.5" PointX="8" PointY="8.25" IsExpanded="true" />
+        <EntityTypeShape EntityType="DBIG3B7Model.Travailleur" Width="1.5" PointX="0.75" PointY="8.125" IsExpanded="true" />
+        <AssociationConnector Association="DBIG3B7Model.EQU_Contr_Entre" ManuallyRouted="false" />
+        <AssociationConnector Association="DBIG3B7Model.ID_Contr_Contr_1_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="DBIG3B7Model.ID_Contr_Contr_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="DBIG3B7Model.REF_Contr_Profe_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="DBIG3B7Model.REF_Contr_Trava_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="DBIG3B7Model.EQU_Inter_Entre_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="DBIG3B7Model.EQU_Tradu_Entre_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="DBIG3B7Model.REF_Tradu_Langu_1_FK" ManuallyRouted="false" />
+        <AssociationConnector Association="DBIG3B7Model.REF_Tradu_Langu_3" ManuallyRouted="false" />
+        <AssociationConnector Association="DBIG3B7Model.EQU_Tradu_Profe" ManuallyRouted="false" />
+      </Diagram>
+    </edmx:Diagrams>
+  </edmx:Designer>
+</edmx:Edmx>
